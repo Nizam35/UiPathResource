@@ -30,3 +30,38 @@ Catch Ex As Exception
                Console.WriteLine(ex.Message)
  End Try           
 ```
+
+
+## Working With DataTable 
+
+### Linq To Perform LeftJoin with Two Datatables
+
+1. Prepare the Result Datatable 
+	
+``` Linq
+
+out_TransactionDt = DT1.Clone
+
+// Make sure that  out_TransactionDt has all the required columns. use Add Data Column activity if need to add additional Columns
+
+( From dt1Row In Dt1.AsEnumerable()
+  Group Join dt2Row In DT2.AsEnumerable()
+   On dt1row.Item("ColumnName").ToString Equals dt2Row.item("ColumnName") Into Group
+   Let matchedfirstRow = Group.FirstOrDefault()
+    Select ra = { 
+		      dt1Row("columnName"),
+			   dt1Row("columnName"),
+			    dt1Row("columnName"),
+				dt1Row("columnName"),
+			   If(isNothing(matchedfirstRow), Nothing, matchedfirstRow("columnName")),
+			    If(isNothing(matchedfirstRow), Nothing, matchedfirstRow("columnName")),
+				If(isNothing(matchedfirstRow), Nothing, matchedfirstRow("columnName"))
+				}
+	Select out_TransactionDt.Rows.Add(ra)).CopyToDataTable
+```
+
+
+
+
+
+
