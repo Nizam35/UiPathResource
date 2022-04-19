@@ -60,7 +60,19 @@ out_TransactionDt = DT1.Clone
 	Select out_TransactionDt.Rows.Add(ra)).CopyToDataTable
 ```
 
+## Working With Macros
 
+1. To Copy Entire Rows of onecolumn to Another Column and change the Case
+``` VBA
+Sub ToUpper()
+    Range("F:F").Copy Range("AD:AD")
+
+    With Range("F1", Cells(Rows.Count, "F").End(xlUp))
+        .Value = Evaluate("INDEX(UPPER(" & .Address(External:=True) & "),)")
+    End With
+End Sub
+
+```
 
 
 
