@@ -1,0 +1,2 @@
+# UiPathResource
+Useful Code Snippet
