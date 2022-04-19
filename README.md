@@ -36,13 +36,12 @@ Catch Ex As Exception
 
 ### Linq To Perform LeftJoin with Two Datatables
 
-1. Prepare the Result Datatable 
 	
 ``` Linq
-
+\\ Prepare the Result Datatable 
 out_TransactionDt = DT1.Clone
 
-// Make sure that  out_TransactionDt has all the required columns. use Add Data Column activity if need to add additional Columns
+\\Make sure that  out_TransactionDt has all the required columns. use Add Data Column activity if need to add additional Columns
 
 ( From dt1Row In Dt1.AsEnumerable()
   Group Join dt2Row In DT2.AsEnumerable()
