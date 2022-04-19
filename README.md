@@ -1,8 +1,7 @@
-# UiPathResource
-Useful Code Snippet
+# UiPathResource - Useful Code Snippet
 
- Gembox Code to Color the Header and Set Default Width to each Column
- 
+ ## Gembox Code to Color the Header and Set Default Width to each Column
+``` VB.Net
 Try
  SpreadsheetInfo.SetLicense(in_GemboxLicenseKey)
  
@@ -30,3 +29,4 @@ tempWorkBook.save(in_ExcelFilePath)
 Catch Ex As Exception
                Console.WriteLine(ex.Message)
  End Try           
+```
