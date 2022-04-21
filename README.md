@@ -92,8 +92,8 @@ Import below Namespce
 "GemBox.Spreadsheet": "[45.0.0.1084]",
 ``` Vb.net
 Try
-	// we need to purchase the License Key from Gem Box
-	// Prepare 
+	'We need to purchase the License Key from Gem Box
+	 'Prepare Html from Excel Sheet 
 	
 	SpreadsheetInfo.SetLicense(in_LicenseKey)
         Dim workbook As ExcelFile = ExcelFile.Load(in_ExcelFilePath)
@@ -114,7 +114,7 @@ Try
 
         workbook.Save(in_HtmlFilePath, options)
 	
-	// Insert above Excel Sheet Data in to Custom Html Template used while using Sedn Outlook Mail Message Activity 
+	 'Insert above Excel Sheet Data in to Custom Html Template used while using Sedn Outlook Mail Message Activity 
 		Dim 	BankingDetailsHtml As String
 		Dim 	SuccessfulTemplateHtml As String
 		
