@@ -73,6 +73,17 @@ End Sub
 
 ```
 
+## Working With Json String
+1. Deserialize Json Response and Take Specific Item
 
+``` 
+Newtonsoft.Json.JsonConvert.DeserializeObject(of Newtonsoft.Json.Linq.JObject)(OutputJson).Item("select").ToString
+```
+
+2. Deserialize Json Reponse to Datatable
+
+``` 
+Newtonsoft.Json.JsonConvert.DeserializeObject(Of Datatable)(out_DeserializedJson.Item("result").ToString).DefaultView.ToTable(False,"memberNo","memberName","voucher")
+```
 
 
