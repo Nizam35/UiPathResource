@@ -39,6 +39,10 @@ Catch Ex As Exception
  End Try           
 ```
 
+## Join multiple rows of single column with "," as separator
 
+``` Vb.net
+String.Join("," , DataTable.DefaultView.ToTable(True,"Request Type").Copy.AsEnumerable().Select(function(r) r.Item(0).ToString).ToList)
+```
   
  
