@@ -8,7 +8,7 @@ Step 1 install Package = "Oracle.ManagedDataAccess.Core": "2.19.31"
 Stpe 2 : Import "Oracle.ManagedDataAccess.Client"
 
 Step 3 :  Make a DB connection
-'User Id=Basamad;Password=b2asmad;Data Source=(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST =prodcsr-scan.bupame.com)(PORT = 1551)) (ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.102.116)(PORT = 1551)) (LOAD_BALANCE = yes) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = PROD.bupa.net)) (FAILOVER_MODE = (TYPE = SELECT) (METHOD = BASIC) (RETRIES = 180) (DELAY = 5)))
+
 
 ' Make Seperate connection
 Dim inout_oralceCon as System.Data.Common.DbConnection
