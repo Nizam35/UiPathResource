@@ -1,0 +1,17 @@
+{
+  "$id": "https://example.com/person.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Output Generated",
+  "type": "object",
+  "properties": {
+    "result": {
+      "type": "object",
+      "description": "The person's first name."
+    },
+    "IsMailSent": {
+      "type": "boolean",
+      "description": "Is the mail has been sent"
+    }
+    
+  }
+}
