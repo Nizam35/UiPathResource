@@ -71,6 +71,35 @@ End Try
 ```
 
 
+## Get Sheet Name using Sheet Index
+
+```cs
+try{
+       	   var ExcelApp = new Microsoft.Office.Interop.Excel.Application();
+           Microsoft.Office.Interop.Excel.Workbook workbook = ExcelApp.Workbooks.Open(@"C:\Users\Ahmed.Nizamuddin\Music\Membership_CorpDataValidationRPA\Required Files\Caesar Validation.xlsx");
+            //Microsoft.Office.Interop.Excel.Worksheet sheet;
+		//ExcelApp.Visible = true;	
+		try{
+				 var worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[in_SheetIndex];
+				out_SheetName = worksheet.Name;
+				out_IsSuccess = true;
+			}catch(Exception ex){
+			out_IsSuccess = false;
+		}
+			ExcelApp.Visible = false;
+            workbook.Save();
+            workbook.Close(false);  
+            ExcelApp.Quit();
+			System.Runtime.InteropServices.Marshal.ReleaseComObject(ExcelApp);
+      // excel.Quit();
+	
+}catch(Exception ex){
+	Console.WriteLine("Excpetion "+ex.Message + "at source " + ex.Source);
+}
+```
+
+
+
 ## Join multiple rows of single column with "," as separator
 
 ``` Vb.net
