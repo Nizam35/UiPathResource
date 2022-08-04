@@ -106,4 +106,28 @@ try{
 String.Join("," , DataTable.DefaultView.ToTable(True,"Request Type").Copy.AsEnumerable().Select(function(r) r.Item(0).ToString).ToList)
 ```
   
- 
+## Get Excel Column Alphabet using Index 
+
+```vb.net
+ Try
+ Dim dividend As Integer = in_ColumnIndex
+ Dim columnName As String = String.Empty
+ Dim modulo As Integer
+
+  While dividend > 0
+       modulo = (dividend - 1) Mod 26
+       columnName = Convert.ToChar(65 + modulo).ToString() & columnName
+       dividend = CInt((dividend - modulo) / 26)
+   End While
+   
+   out_ColumnName = columnName
+   
+Catch ex As Exception
+	Console.WriteLine("Exception "+ex.ToString)
+End Try
+```
+
+
+
+
+
