@@ -1,5 +1,36 @@
 # UiPathResource - Useful Code Snippet
 
+## Gembox vb.net code to Append or Write Datatable to new File or existing File
+
+```vb.net
+ Try
+ 
+   SpreadsheetInfo.SetLicense(in_LicenseKey)
+     Dim TempWorkBook As ExcelFile
+	 
+	If File.Exists(in_FilePath).Equals(False) Then
+		TempWorkBook = New ExcelFile()
+	Else
+		TempWorkBook = ExcelFile.Load(in_FilePath)
+	End If
+   
+
+Dim WorkSheet As ExcelWorksheet =   If(TempWorkBook.Worksheets.Contains(in_SheetName) , TempWorkBook.Worksheets(in_SheetName) ,TempWorkBook.Worksheets.Add(in_SheetName))
+
+WorkSheet.InsertDataTable(in_DataTable,
+            New InsertDataTableOptions() With
+            {
+                .ColumnHeaders = True,
+                .StartRow = 0
+            })
+	TempWorkBook.Save(in_FilePath)
+	
+Catch ex As Exception
+	Console.WriteLine(ex.ToString + " at soure " + ex.Source)
+End Try
+```
+
+
  ## Gembox Code to Color the Header and Set Default Width to each Column
 ``` VB.Net
 Try
@@ -134,3 +165,6 @@ Catch ex As Exception
 End Try
 		
 ```
+
+
+
