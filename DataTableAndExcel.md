@@ -7,6 +7,30 @@ Datatable.DefaultView.Sort = "ColName ASC,colName DESC"
 DataTable = Datatable.DefaultView.ToTable
 ```
 
+### Vb.net to Group the Datatable and get the  Sum,Count and percentage
+```vb.net
+
+Dim testDt As DataTable = New DataTable()
+testDt.Columns.Add("Name", GetType(System.String))
+testDt.Columns.Add("Age", GetType(system.Int32 ))
+testDt.Columns.Add("Sum", GetType(system.Int32 ) )
+testDt.Columns.Add("Count", GetType(system.Int32 ) )
+testDt.Columns.Add("Percentage", GetType(system.Decimal ) )
+
+
+testDt= (From dte In in_TestDt.AsEnumerable
+	Group dte By col1=dte("Name").ToString.Trim Into Group
+	Select testDt.Rows.Add(
+				{col1, Group.Sum(Function (x) CInt(x("Age").toString.Trim)),Group.Count() ,(Group.Count()/ in_TestDt.RowCount())*100}
+			       )
+	).CopyToDataTable
+				
+						
+out_FinalDt =testDt.Copy
+```
+
+
+
 ## Gembox to Color the Header and Autofit Columns
 ``` Vb.net 
 
