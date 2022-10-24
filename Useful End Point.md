@@ -4,7 +4,7 @@
 https://uipathpackages.myget.org/F/packages/api/v3/index.json
 ```
 
-## BAsic Nuget.Config Strucure
+## Basic Nuget.Config Strucure
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
