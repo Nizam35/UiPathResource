@@ -29,8 +29,6 @@ testDt= (From dte In in_TestDt.AsEnumerable
 out_FinalDt =testDt.Copy
 ```
 
-
-
 ## Gembox to Color the Header and Autofit Columns
 ``` Vb.net 
 
@@ -149,6 +147,63 @@ String.Join("," , DataTable.DefaultView.ToTable(True,"Request Type").Copy.AsEnum
 Catch ex As Exception
 	Console.WriteLine("Exception "+ex.ToString)
 End Try
+```
+
+## Convert Excel Sheet to PDF
+```vb.net
+Try 
+		Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MTUzODIzQDMxMzcyZTMzMmUzMG1KckNZUjlKU1hpRFpCRTByK2I4TDZMRXlLamVYSzRTRDBzSFlCRzBwMVE9")
+		Dim excelEngine As ExcelEngine = New ExcelEngine()
+		Dim application As IApplication = excelEngine.Excel
+ 		application.DefaultVersion = ExcelVersion.Excel2016
+  		
+	  'Open Work Book
+	   Dim workbook As IWorkbook = application.Workbooks.Open("C:\Users\Ahmed.Nizamuddin\Documents\Retention.xlsx", ExcelOpenType.Automatic)
+		
+	   Dim  sheet As IWorksheet =  workbook.Worksheets("Retention Model Scorecard")
+	   	sheet.PageSetup.Orientation = ExcelPageOrientation.Landscape
+	   'For Each sheet As IWorksheet In workbook.Worksheets
+	   		
+		'Next		
+	 	
+		'Initialize ExcelToPdfConverterSettings
+			  Dim settings As ExcelToPdfConverterSettings = New ExcelToPdfConverterSettings()
+			  'Set the gridlines display style as Invisible
+ 			 settings.DisplayGridLines = GridLinesDisplayStyle.Invisible
+			 'Disable ExportDocumentProperties
+  			settings.ExportDocumentProperties = False
+			'Enable ExportQualityImage
+  				settings.ExportQualityImage = True
+				'Disable ShowHeader
+  			settings.HeaderFooterOption.ShowHeader = False
+			 'Disable ShowFooter
+ 			 settings.HeaderFooterOption.ShowFooter = False
+				'Disable IsConvertBlankPage
+ 				 settings.IsConvertBlankPage = False	
+				'Disable IsConvertBlankSheet
+  				settings.IsConvertBlankSheet = False
+				 'Set layout option as FitAllColumnsOnOnePage
+ 				 settings.LayoutOptions = LayoutOptions.FitAllColumnsOnOnePage
+				 'Set layout option as FitAllRowsOnOnePage
+  				'settings.LayoutOptions = LayoutOptions.FitAllRowsOnOnePage
+				
+				
+			 'Open the Excel document to convert
+  			Dim converter As ExcelToPdfConverter = New ExcelToPdfConverter(workbook)
+ 			 'Initialize the PDF document
+ 			Dim pdfDocument As New PdfDocument()
+
+  			'Convert Excel document into PDF document
+  			pdfDocument = converter.Convert(settings)
+  			'Save the PDF file
+  			pdfDocument.Save("test.pdf")
+	
+
+	Catch ex As Exception
+			Throw New BusinessRuleException(ex.Message)
+	End Try	
+
+
 ```
 
 
