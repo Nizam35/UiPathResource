@@ -1,5 +1,33 @@
 ### Code Snippet Specific To Datatable
 
+
+## Dynamic Linq to Get Row from one table against second table based on conditional columns
+
+### Sample Conditonal columns (Transaction Item)
+
+| Name Col         | Age Col | Empl ID Col | Description | 
+|--------------|:-----:|-----------:|-----------:|
+| True |  false |        false |  to get the rows from Current Table when only Name matches and rest of the columns are not mathing |
+| false      |  false |   true | to get the rows from Current Table when both Age & Empl ID matches and Name of the column are not mathing |
+
+### Smaple Linq Code
+
+```Linq
+(From row1 In   in_CurrentDt
+From row2 In  in_PreviousDt
+
+Let RegisterNumber =If(row1(ConditionDictList(0).Key).ToString.tolower.trim.equals(row2(ConditionDictList(0).Key).ToString.tolower.trim),"True","False")
+Let TradeName=If(row1( ConditionDictList(1).Key).ToString.tolower.trim.equals(row2(ConditionDictList(1).Key).ToString.tolower.trim),"True","False")
+Let  Strength=If(row1( ConditionDictList(2).Key).ToString.tolower.trim.equals(row2(ConditionDictList(2).Key).ToString.tolower.trim),"True","False")
+
+Let boolRegisterNumber= RegisterNumber.ToString.equals(ConditionDictList(0).Value)
+Let  boolTradeName=  TradeName.ToString.equals(ConditionDictList(1).Value)
+Let boolStrength=  Strength.ToString.equals(ConditionDictList(2).Value)
+
+Where  boolRegisterNumber And  boolTradeName And  boolStrength And boolStrengthUnit And boolPharmaceuticalForm And boolSize And boolSizeUnit And boolPackageSize  And boolPublicprice
+Select row1).tolist
+
+
 ## Using DataView to Sort Datatable
 
 ``` Sort
@@ -150,6 +178,7 @@ Catch ex As Exception
 	Console.WriteLine("Exception "+ex.ToString)
 End Try
 ```
+
 
 
 
