@@ -5,28 +5,32 @@
 
 ### Sample Conditonal columns (Transaction Item)
 
-| Name Col         | Age Col | Empl ID Col | Description | 
+| Name   | Age  | Gender  | Description | 
 |--------------|:-----:|-----------:|-----------:|
 | True |  false |        false |  to get the rows from Current Table when only Name matches and rest of the columns are not mathing |
 | false      |  false |   true | to get the rows from Current Table when both Age & Empl ID matches and Name of the column are not mathing |
 
-### Smaple Linq Code
+### Sample Linq Code for converting the DataRow into Dictionary
 
 ```Linq
-(From row1 In   in_CurrentDt
-From row2 In  in_PreviousDt
+ConditionDictList = in_DataRow.Table.Columns.Cast<DataColumn>().ToDictionary((c) => c.ColumnName, c => in_DataRow[c])
+```
 
-Let RegisterNumber =If(row1(ConditionDictList(0).Key).ToString.tolower.trim.equals(row2(ConditionDictList(0).Key).ToString.tolower.trim),"True","False")
-Let TradeName=If(row1( ConditionDictList(1).Key).ToString.tolower.trim.equals(row2(ConditionDictList(1).Key).ToString.tolower.trim),"True","False")
-Let  Strength=If(row1( ConditionDictList(2).Key).ToString.tolower.trim.equals(row2(ConditionDictList(2).Key).ToString.tolower.trim),"True","False")
+```Vb.net
+(From row1 In   in_CurrentDt ' We will be fetching the Row form this Datatable
+From row2 In  in_PreviousDt '  Against this Datatable
 
-Let boolRegisterNumber= RegisterNumber.ToString.equals(ConditionDictList(0).Value)
-Let  boolTradeName=  TradeName.ToString.equals(ConditionDictList(1).Value)
-Let boolStrength=  Strength.ToString.equals(ConditionDictList(2).Value)
+Let  Name = If(row1(ConditionDictList(0).Key).ToString.tolower.trim.equals(row2(ConditionDictList(0).Key).ToString.tolower.trim),"True","False")
+Let Age  =If(row1( ConditionDictList(1).Key).ToString.tolower.trim.equals(row2(ConditionDictList(1).Key).ToString.tolower.trim),"True","False")
+Let  Gender  =If(row1( ConditionDictList(2).Key).ToString.tolower.trim.equals(row2(ConditionDictList(2).Key).ToString.tolower.trim),"True","False")
 
-Where  boolRegisterNumber And  boolTradeName And  boolStrength And boolStrengthUnit And boolPharmaceuticalForm And boolSize And boolSizeUnit And boolPackageSize  And boolPublicprice
+Let boolNamer= Name.ToString.equals(ConditionDictList(0).Value)
+Let  boolAge =  Age.ToString.equals(ConditionDictList(1).Value)
+Let boolGender=  Gender.ToString.equals(ConditionDictList(2).Value)
+
+Where  boolRegisterNumber And  boolTradeName And  boolStrength
 Select row1).tolist
-
+```
 
 ## Using DataView to Sort Datatable
 
