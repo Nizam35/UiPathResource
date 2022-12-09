@@ -1,5 +1,26 @@
 ### Code Snippet Specific To Datatable
 
+## Generate Datatable with all the files in a folder
+
+```vb.net
+
+Try
+
+Dim testDt As Datatable = New DataTable()
+
+testDt.Columns.Add("FilePath",Type.GetType("System.String")) ' Adding a new Column of Type string
+
+Dim FilesCollection As New List(Of String)
+
+FilesCollection = Directory.GetFiles("Data\ExampleDocuments").ToList()
+
+FilesCollection.ForEach( Function(rowItem) testDt.Rows.Add({rowItem}) )
+
+Catch ex As Exception
+	Console.WriteLine(ex.ToString)
+End Try
+```
+
 
 ## Dynamic Linq to Get Row from one table against second table based on conditional columns
 
