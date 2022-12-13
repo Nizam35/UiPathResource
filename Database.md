@@ -37,4 +37,21 @@ For Each row As DataRow In ds.Tables(0).Rows
 Next
 
 ```
+## Below SQL Queries used for Identifying the New Rows in one Table1 By Comparing another Table2
+
+```Sql
+
+SELECT *  FROM  Table1 AS c1
+	WHERE C1.RegisterNumber NOT IN(SELECT RegisterNumber FROM dbo.Table2)
+	AND c1.TradeName Not In (SELECT  TradeName FROM  dbo.Table2)
+	AND C1.Strength  Not IN (SELECT    Strength FROM  dbo.Table2)
+	AND c1.StrengthUnit  NOT IN (SELECT  StrengthUnit FROM  dbo.Table2)
+	AND C1.PharmaceuticalForm  Not IN (SELECT    PharmaceuticalForm FROM  dbo.Table2)
+	AND c1.Size  NOT IN (SELECT  Size FROM  dbo.Table2)
+	AND C1.SizeUnit  Not IN (SELECT    SizeUnit FROM  dbo.Table2)
+	AND c1.PackageSize Not In (SELECT  PackageSize FROM  dbo.Table2)
+	AND C1.Publicprice  Not IN (SELECT    Publicprice FROM  dbo.Table2)
+	
+```
+
 
