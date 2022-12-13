@@ -59,11 +59,19 @@ SELECT *  FROM  Table1 AS c1
 ``` sql
 -- Consider Table 1 has 2 Rows, While matching with Table 2 we received 5 rows as Successful Match for 2 the Rows in Table1. Below Query will get only 2 rows from Table 2 by getting the latest rows out of 5 matched Rows.
 
-Select * From 
-(Select *, ROW_NUMBER() OVER ( PARTITION By Res.TradeName Order By  CONVERT(DATETIME,Res.DateOfChange) DESC )  AS row 
-From ( Select T2.* From Table2 As T2  Where Exists (Select * From Table1 As T1  Where  T2.SFDACode <>  T1.SFDACode And  
-T2.TradeName =  T1.TradeName And  T2.Strength <>  T1.Strength And  T2.Unitofstrength =  T1.Unitofstrength And  
-T2.DosageForm =  T1.DosageForm And  T2.Size =  T1.Size And  T2.Unit =  T1.Unit And  T2.Packagesize =  T1.Packagesize And  T2.Price =  T1.Price) ) As Res) As Sub Where Sub.row =1
+Select * --Latest Rows from Table2
+From (
+      Select *, ROW_NUMBER() OVER ( PARTITION By Res.TradeName Order By  CONVERT(DATETIME,Res.DateOfChange) DESC )  AS row
+      From 
+	     (Select T2.* From Table2 As T2 --Get All Matched  Rows from Table2
+	      Where Exists (Select * From Table1 As T1  Where  T2.SFDACode <>  T1.SFDACode And  
+			    T2.TradeName =  T1.TradeName And  T2.Strength <>  T1.Strength And  T2.Unitofstrength =  T1.Unitofstrength And  
+			    T2.DosageForm =  T1.DosageForm And  T2.Size =  T1.Size And  T2.Unit =  T1.Unit And  T2.Packagesize =  T1.Packagesize
+			    And  T2.Price =  T1.Price
+			    ) 
+	     )
+     As Res
+     ) As Sub Where Sub.row =1
 ```
 
   
