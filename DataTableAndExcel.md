@@ -1,8 +1,64 @@
 ### Code Snippet Specific To Datatable
 
+## Excel Sheet to Datatable using Gem Obx
+
+``` vb.net
+try {
+  SpreadsheetInfo.SetLicense(in_GemboxLicenseKey);
+   var workbook = ExcelFile.Load(in_FilePath);
+	var worksheet = workbook.Worksheets[in_SheetName];
+	
+	int TotalColumns = worksheet.CalculateMaxUsedColumns();
+
+    out_DataTable  = worksheet.CreateDataTable(new CreateDataTableOptions()
+        {
+            ColumnHeaders = in_HasHeader,
+            StartRow = in_StartRow,
+            NumberOfColumns = TotalColumns,
+            NumberOfRows = worksheet.Rows.Count,
+           // Resolution = ColumnTypeResolution.AutoPreferStringCurrentCulture
+        });
+
+} catch(Exception ex){
+	Console.WriteLine("Exception "+ex.Message + "at source " + ex.Source);
+	//io_DataTable = null;
+}
+```
+
+##  Generate to Datatable using Gembox
+```csharp
+try {
+  SpreadsheetInfo.SetLicense(in_GemboxLicenseKey);
+   var workbook = ExcelFile.Load(in_FilePath);
+	var worksheet = ! String.IsNullOrEmpty(in_SheetName) ?workbook.Worksheets[in_SheetName]:workbook.Worksheets[in_SheetIndex];
+	
+	//Get Column index
+	//Console.WriteLine("current Column Index is {0}", worksheet.Columns.Count);
+	int TotalColumns = worksheet.CalculateMaxUsedColumns();
+	//Console.WriteLine("Total Allocated cell is {0}", TotalColumns);
+	//Total No. of Rows
+	//	Console.WriteLine("Current last row index {0}", worksheet.Rows.Count);
+
+    io_DataTable  = worksheet.CreateDataTable(new CreateDataTableOptions()
+        {
+			ColumnHeaders = in_HasHeader,
+            StartRow = 0,
+            NumberOfColumns = TotalColumns,
+            NumberOfRows = worksheet.Rows.Count,
+            Resolution = ColumnTypeResolution.AutoPreferStringCurrentCulture
+        });
+
+	io_DataTable = io_DataTable.AsEnumerable().Where( row => !row.ItemArray.All(field => field is DBNull || string.IsNullOrWhiteSpace(field.ToString())) ).CopyToDataTable();
+	
+} catch(Exception ex){
+	Console.WriteLine("Excpetion "+ex.Message + "at source " + ex.Source);
+	//io_DataTable = null;
+}
+```
+
 ## Using DataView to Sort Datatable
 
-``` Sort
+```vb.net
 Datatable.DefaultView.Sort = "ColName ASC,colName DESC"
 DataTable = Datatable.DefaultView.ToTable
 ```
@@ -204,6 +260,39 @@ Try
 	End Try	
 
 
+```
+## Left Join
+
+```vb.net
+Try
+Dim dt As New DataTable()
+dt = out_FinalDatatable.Clone()
+
+dt = ( From cognosRow In in_CognosDataTable.AsEnumerable()
+  Group Join cchiRow In in_CCHIDataTable.AsEnumerable()
+   On cognosRow.Item("CCHI Acc-Lic no").ToString Equals cchiRow.item("License No From CCHI").ToString Into Group
+   Let matchedfirstRow = Group.FirstOrDefault()
+    Select ra = { 
+		      cognosRow("Provider Code"),
+			   cognosRow("Provider Name"),
+			    cognosRow("Provider Level"),
+			    cognosRow("CCHI Acc-Lic no"),
+				If(String.IsNullOrEmpty(cognosRow.Item("CCHI Eff To").ToString), Nothing, DateTime.Parse(cognosRow("CCHI Eff To").ToString).ToString("dd/MM/yyyy")),
+				cognosRow("CCHI Status").ToString,
+			   If(isNothing(matchedfirstRow), Nothing, matchedfirstRow("License No From CCHI")),
+			    If(isNothing(matchedfirstRow), Nothing, DateTime.Parse(matchedfirstRow("Latest CCHI Eff To").ToString).ToString("dd/MM/yyyy")),
+				If(isNothing(matchedfirstRow),"Not found",If(matchedfirstRow("Latest CCHI Eff To").ToString.Equals(cognosRow("CCHI Eff To").ToString),"True","False"))
+				}
+	Select dt.Rows.Add(ra)).CopyToDataTable
+		
+		'out_FinalDatatable = dt.Copy.Select("[Provider Level] <> 'Out of Network'").CopyToDataTable
+	
+		Console.WriteLine("Total Rows are " + dt.RowCount().ToString)
+		out_FinalDatatable = dt.Copy
+		
+	Catch ex As Exception
+		Console.WriteLine("exception is "+ ex.Message)
+	End Try
 ```
 
 
