@@ -1,5 +1,12 @@
 ### Code Snippet Specific To Datatable
 
+
+## GroupBy Specific Column and Sort based on another column using Linq
+```vb.net
+AllTransactionDt. AsEnumerable().GroupBy(Function(row) row("col1").ToString).SelectMany(Function(grp)  grp.OrderBy(Function(row) CInt(row("intcol2") ))).CopyToDataTable()
+```
+
+
 ## Excel Sheet to Datatable using Gem Obx
 
 ``` vb.net
@@ -294,8 +301,6 @@ dt = ( From cognosRow In in_CognosDataTable.AsEnumerable()
 		Console.WriteLine("exception is "+ ex.Message)
 	End Try
 ```
-
-
 
 
 
