@@ -302,5 +302,37 @@ dt = ( From cognosRow In in_CognosDataTable.AsEnumerable()
 	End Try
 ```
 
+## Find out Sheet Exist in Exel File or not 
+
+```vb.net
+Try
+out_IsSheetExist = False
+If File.Exists(in_FilePath) Then
+' Create an instance of Excel Application
+Dim excelApp As New Microsoft.Office.Interop.Excel.ApplicationClass()
+' Open the workbook
+Dim workbook As Microsoft.Office.Interop.Excel.Workbook = excelApp.Workbooks.Open(in_filePath)
+' Check if the sheet exists
+
+For Each sheet As Microsoft.Office.Interop.Excel.Worksheet In workbook.Sheets
+	   If sheet.Name = in_SheetName Then
+          out_IsSheetExist = True
+        Exit For
+    End If
+Next
+' Close the workbook and release resources
+workbook.Close()
+excelApp.Quit()
+System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook)
+System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApp)
+Else
+	Console.WriteLine("File Doesnt Exist")
+End If
+	
+Catch ex As Exception
+	Console.WriteLine(ex.Message + " at Source : "+ ex.Source)
+End Try
+```
+
 
 
