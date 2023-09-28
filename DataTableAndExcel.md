@@ -1,5 +1,77 @@
 ### Code Snippet Specific To Datatable
 
+## Code to Add Missing Row based on Mapping Table
+```vb.net
+Try
+    Dim gradeGroups As Integer()() = {
+        New Integer() {2, 3, 4},
+        New Integer() {5, 6, 7},
+        New Integer() {10, 11}
+    }
+
+    Dim groupedData = InputDt.AsEnumerable().
+        GroupBy(Function(row) row("Role")).
+        Select(Function(Group) New With {
+            .Role = Group.Key,
+            .Rows = Group.ToList()
+        }).ToList()
+
+    FinalDataTable = InputDt.Clone()
+
+    Console.WriteLine($"Input {InputDt.Rows.Count}")
+    Console.WriteLine($"Total Groups Created {groupedData.Count}")
+
+    For Each Group In groupedData
+        Console.WriteLine($"Looping {Group.Role} Group")
+        Dim groupTableDt As DataTable = Group.Rows.CopyToDataTable()
+
+        Dim gradesInGroup = groupTableDt.AsEnumerable().
+            Where(Function(row) Not row.IsNull("Grade")).
+            Select(Function(row) row.Field(Of Integer)("Grade")).Distinct().ToList()
+
+        Console.WriteLine($"Available grades in Input are {String.Join(",", gradesInGroup)}")
+
+        For Each gradeGroup In gradeGroups
+            Console.WriteLine($"Validate Group with {String.Join(",", gradeGroup)}")
+            If gradeGroup.Any(Function(grade) gradesInGroup.Contains(grade)) Then
+                Console.WriteLine("Fetch Temp Row")
+                Dim TempRow As DataRow = groupTableDt.AsEnumerable().
+                    Where(Function(row) Not row.IsNull("Grade") AndAlso gradeGroup.Contains(row.Field(Of Integer)("Grade"))).
+                    FirstOrDefault()
+
+                If TempRow IsNot Nothing Then
+                    Console.WriteLine($"Temp Row Grade is {TempRow.Field(Of Integer)("Grade")}")
+
+                    For Each grade In gradeGroup
+                        If Not gradesInGroup.Contains(grade) Then
+                            Console.WriteLine($"Adding The Grade {grade}")
+                            Dim MapRow = MapDt.Select("[New Level] =" & grade).FirstOrDefault()
+
+                            If MapRow IsNot Nothing Then
+                                Dim newRow As DataRow = groupTableDt.NewRow()
+                                newRow.ItemArray = TempRow.ItemArray
+
+                                newRow("Profile Name (Position/Role Title)") = $"{MapRow("New Title")} - {newRow("Role")}"
+                                newRow("Grade") = grade
+
+                                groupTableDt.Rows.Add(newRow)
+                                Console.WriteLine($"Group Rows After adding new Row {groupTableDt.Rows.Count}")
+                            End If
+                        End If
+                    Next
+                End If
+            End If
+        Next
+
+        Console.WriteLine($"Group Rows After {groupTableDt.Rows.Count}")
+        FinalDataTable.Merge(groupTableDt)
+    Next
+
+Catch ex As Exception
+    Console.WriteLine($"{ex.Message} at source {ex.Source}")
+End Try
+```
+
 ## Convert HTML to Dataset using vb.net
 
 ```vb.net
