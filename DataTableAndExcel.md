@@ -1,5 +1,24 @@
 ### Code Snippet Specific To Datatable
 
+## update rows value using ForEach Method
+```vb.net
+  InputDt.AsEnumerable().ToList().ForEach(
+       Sub(row)
+           Dim IsMatched = Regex.IsMatch(row("Profile Name (Position/Role Title)").ToString, "(?<=-)(?<role>.*)")
+           Dim Role As String = Nothing
+
+           If IsMatched Then
+               Role = Regex.Match(row("Profile Name (Position/Role Title)").ToString, "(?<=-)(?<role>.*)").Groups("role").Value.Trim
+               Console.WriteLine(Role)
+           Else
+               Role = row("Profile Name (Position/Role Title)").ToString.Trim
+           End If
+
+           row.SetField("Role", Role)
+       End Sub
+   )
+```
+
 ## Code to Add Missing Row based on Mapping Table
 ```vb.net
 Try
